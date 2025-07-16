@@ -1,5 +1,10 @@
 FROM registry.redhat.io/openshift4/microshift-bootc-rhel9:v4.19
 
+ARG USHIFT_VER=4.19
+RUN dnf config-manager \
+        --set-enabled rhocp-${USHIFT_VER}-for-rhel-9-$(uname -m)-rpms \
+        --set-enabled fast-datapath-for-rhel-9-$(uname -m)-rpms
+
 RUN dnf install rhc insights-client microshift-gitops && dnf clean all
 
 # TODO: do user mgmt. better
