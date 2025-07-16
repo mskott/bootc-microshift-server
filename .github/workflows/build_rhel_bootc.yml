@@ -52,7 +52,7 @@ jobs:
         run: dnf -y install podman buildah skopeo
 
       - name: Access a subscription via activation key
-        run: subscription-manager register --org=${{ secrets.RHT_ORGID }} --activationkey=${{ secrets.RHT_ACT_KEY }}
+        run: rhc connect --organization=${{ secrets.RHT_ORGID }} --activation-key=${{ secrets.RHT_ACT_KEY }}
 
       # workaround for https://github.com/redhat-actions/podman-login/issues/42 since the docker config from the host doesn't come up to the container
       - name: Workaround open podman-login action issue
@@ -96,4 +96,4 @@ jobs:
 
       - name: Clean up the subscription
         if: always()
-        run: subscription-manager unregister
+        run: rhc disconnect
