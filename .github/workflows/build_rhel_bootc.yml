@@ -54,6 +54,9 @@ jobs:
       - name: Access a subscription via activation key
         run: subscription-manager register --org=${{ secrets.RHT_ORGID }} --activationkey=${{ secrets.RHT_ACT_KEY }}
 
+      - name: Enable MicroShift repos
+        run: subscription-manager repos --enable rhocp-4.19-for-rhel-9-x86_64-rpms --enable fast-datapath-for-rhel-9-x86_64-rpms
+        
       # workaround for https://github.com/redhat-actions/podman-login/issues/42 since the docker config from the host doesn't come up to the container
       - name: Workaround open podman-login action issue
         env:
