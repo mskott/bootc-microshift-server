@@ -6,7 +6,9 @@ RUN dnf config-manager \
         --set-enabled fast-datapath-for-rhel-9-$(uname -m)-rpms \
         --set-enabled gitops-1.16-for-rhel-9-x86_64-rpms
 
-RUN dnf install -y mkpasswd rhc insights-client microshift-gitops && dnf clean all
+RUN dnf install -y mkpasswd rhc insights-client microshift-gitops tuned && \
+    dnf clean all && \
+    systemctl enable tuned
 
 # TODO: do user mgmt. better
 #configure bootc-user
