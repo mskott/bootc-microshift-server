@@ -17,5 +17,12 @@ RUN pass=$(mkpasswd --method=SHA-512 --rounds=4096 redhat) && useradd -m -G whee
 #setup sudo to not require password
 RUN echo "%wheel        ALL=(ALL)       NOPASSWD: ALL" > /etc/sudoers.d/wheel-sudo
 
+# Allow traffic in through the firewall
+RUN firewall-cmd --permanent --zone=trusted --add-source=10.42.0.0/16 \
+    firewall-cmd --permanent --zone=trusted --add-source=169.254.169.1 \
+    firewall-cmd --permanent --zone=public --add-port=6443/tcp \
+    firewall-cmd --permanent --zone=public --add-port=443/tcp \
+    firewall-cmd --permanent --zone=public --add-port=80/tcp
+
 RUN rm /var/{cache,lib}/dnf /var/lib/rhsm /var/cache/ldconfig -rf
 RUN bootc container lint
